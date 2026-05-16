@@ -1,0 +1,25 @@
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lms/features/auth/model/sign_up_model.dart';
+import 'package:lms/features/auth/repositories/auth_repository.dart';
+
+part 'sign_up_event.dart';
+part 'sign_up_state.dart';
+
+class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
+  final AuthRepository _authRepository = AuthRepository();
+  SignUpBloc() : super(SignUpInitial()) {
+    on<SignUpEvent>(_onSignUpEvent);
+  }
+  Future<void> _onSignUpEvent(
+    SignUpEvent event,
+    Emitter<SignUpState> emit,
+  ) async {
+    emit(SignUpLoading());
+    final data = await _authRepository.signup(signup: event.signUpModel);
+    data.fold(
+      (l) => emit(SignUpError(msg: l)),
+      (r) => emit(SignUpLoaded(msg: r)),
+    );
+  }
+}
