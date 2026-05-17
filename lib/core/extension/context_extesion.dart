@@ -5,7 +5,7 @@ extension ContextExtesion on BuildContext {
   void showSnackbar(String msg) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(msg)));
   }
-
+  
   void showLoadingDialog() {
     showDialog(
       context: this,

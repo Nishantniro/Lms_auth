@@ -1,0 +1,15 @@
+import 'package:lms/features/auth/model/token_model.dart';
+
+class VerifyTokenResponseModel {
+  final String detail;
+  final TokenModel token;
+
+  VerifyTokenResponseModel({required this.detail, required this.token});
+
+  factory VerifyTokenResponseModel.fromMap(Map<String, dynamic> map) {
+    return VerifyTokenResponseModel(
+      detail: map['detail'],
+      token: TokenModel.fromMap(map['token']),
+    );
+  }
+}

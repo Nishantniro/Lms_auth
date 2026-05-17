@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lms/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:lms/features/auth/bloc/sign_up/sign_up_bloc.dart';
 import 'package:lms/features/auth/pages/sign_up.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => SignUpBloc()),
-        //BlocProvider(create: (context) => SubjectBloc()),
+        BlocProvider(create: (context) => OtpBloc()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
