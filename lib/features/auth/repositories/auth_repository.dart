@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:lms/core/error/error_handler.dart';
 import 'package:lms/core/networks/dio_client.dart';
+import 'package:lms/features/auth/model/profile_model.dart';
 import 'package:lms/features/auth/model/sign_up_model.dart';
 import 'package:lms/features/auth/model/verify_otp_request_model.dart';
 import 'package:lms/features/auth/model/verify_token_response_model.dart';
@@ -15,8 +16,6 @@ class AuthRepository {
       final response = await _dioClient.dio.post(
         "/auth/sign-up/",
         data: signup.toMap(),
-        
-        
       );
       return Right(response.data["detail"]);
     } catch (e) {
@@ -38,27 +37,20 @@ class AuthRepository {
       return left(e.toString());
     }
   }
-  Future<Either<String, VerifyTokenResponseModel>> getProfile() async {
+
+  Future<Either<String, ProfileModel>> getProfile() async {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-       final token = prefs.getString("access_token");
+      final token = prefs.getString("access_token");
       final response = await _dioClient.dio.get(
         "/profile/me",
-        options: Options(
-    headers: {
-      "Authorization": "Bearer $token",
-    },
-  ),
-       
+        options: Options(headers: {"Authorization": "Bearer $token"}),
       );
-      final finaldata = VerifyTokenResponseModel.fromMap(response.data);
+      final finaldata = ProfileModel.fromMap(response.data);
       return right(finaldata);
     } catch (e) {
-      return left(e.toString());
+      return left(ErrorHandler.handelError(e));
     }
   }
-
-
-
 }
