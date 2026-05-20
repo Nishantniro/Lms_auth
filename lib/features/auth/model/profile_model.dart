@@ -4,6 +4,7 @@ class ProfileModel {
   final String name;
   final String email;
   final List<String> roles;
+  final bool hastrainerprofile;
 
   ProfileModel({
     required this.id,
@@ -11,6 +12,7 @@ class ProfileModel {
     required this.name,
     required this.email,
     required this.roles,
+    required this.hastrainerprofile,
   });
 
   factory ProfileModel.fromMap(Map<String, dynamic> map) {
@@ -20,16 +22,7 @@ class ProfileModel {
       name: map['name'] ?? '',
       email: map['email'] ?? '',
       roles: List<String>.from(map['roles'] ?? []),
+      hastrainerprofile: map['has_trainer_profile'],
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'username': username,
-      'name': name,
-      'email': email,
-      'roles': roles,
-    };
   }
 }
