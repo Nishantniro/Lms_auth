@@ -1,12 +1,14 @@
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
+import 'package:lms/core/data/storage/token_service.dart';
 import 'package:lms/core/error/error_handler.dart';
 import 'package:lms/core/networks/dio_client.dart';
-import 'package:lms/features/auth/model/profile_model.dart';
+import 'package:lms/features/auth/model/login_model.dart';
 import 'package:lms/features/auth/model/sign_up_model.dart';
+import 'package:lms/features/auth/model/token_model.dart';
+// import 'package:lms/features/auth/model/token_model.dart';
 import 'package:lms/features/auth/model/verify_otp_request_model.dart';
 import 'package:lms/features/auth/model/verify_token_response_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
   final DioClient _dioClient = DioClient();
@@ -31,26 +33,41 @@ class AuthRepository {
         "/auth/verify-email/",
         data: verify.toMap(),
       );
+
       final finaldata = VerifyTokenResponseModel.fromMap(response.data);
+      await TokenService.instance.save(finaldata.token);
+
       return right(finaldata);
     } catch (e) {
       return left(e.toString());
     }
   }
 
-  Future<Either<String, ProfileModel>> getProfile() async {
+  Future<Either<String, String>> login({required LoginModel login}) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-
-      final token = prefs.getString("access_token");
-      final response = await _dioClient.dio.get(
-        "/profile/me",
-        options: Options(headers: {"Authorization": "Bearer $token"}),
+      final response = await _dioClient.dio.post(
+        "/auth/login/",
+        data: login.toMap(),
       );
-      final finaldata = ProfileModel.fromMap(response.data);
-      return right(finaldata);
+      final token = TokenModel.fromMap(response.data["token"]);
+      await TokenService.instance.save(token);
+      return Right(response.data["detail"]);
     } catch (e) {
-      return left(ErrorHandler.handelError(e));
+      return Left(ErrorHandler.handelError(e));
+    }
+  }
+
+  Future<Either<String, TokenModel>> refresh(String refresh) async {
+    try {
+      final response = await _dioClient.dio.post(
+        "/auth/token/refresh/",
+        data: {"refresh": refresh},
+      );
+      final token = TokenModel.fromMap(response.data);
+      await TokenService.instance.save(token);
+      return Right(response.data);
+    } catch (e) {
+      return Left(ErrorHandler.handelError(e));
     }
   }
 }

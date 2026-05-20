@@ -25,7 +25,7 @@ class VerificationOtp extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 20),
             Text(
               "Enter your otp sent on $email",
               style: TextStyle(
@@ -59,7 +59,7 @@ class VerificationOtp extends StatelessWidget {
                 ),
                 theme: MaterialPinTheme(
                   shape: MaterialPinShape.outlined,
-                  cellSize: Size(60, 60),
+                  cellSize: Size(40, 40),
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),

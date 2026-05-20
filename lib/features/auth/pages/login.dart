@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms/core/extension/context_extesion.dart';
 import 'package:lms/core/widgets/custom_text_form.dart';
 import 'package:lms/core/widgets/primary_button.dart';
-import 'package:lms/features/auth/bloc/sign_up/sign_up_bloc.dart';
-import 'package:lms/features/auth/model/sign_up_model.dart';
-import 'package:lms/features/auth/pages/verification_otp.dart';
+import 'package:lms/features/auth/bloc/login/login_bloc.dart';
+import 'package:lms/features/auth/model/login_model.dart';
+import 'package:lms/features/auth/pages/sign_up.dart';
+import 'package:lms/features/home/home.dart';
 
-class UserLogin extends StatefulWidget {
-  const UserLogin({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  State<UserLogin> createState() => _UserLoginState();
+  State<Login> createState() => _LoginState();
 }
 
-class _UserLoginState extends State<UserLogin> {
-  final TextEditingController _name = TextEditingController();
+class _LoginState extends State<Login> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
@@ -24,7 +24,6 @@ class _UserLoginState extends State<UserLogin> {
 
   @override
   void dispose() {
-    _name.dispose();
     _email.dispose();
     _password.dispose();
     super.dispose();
@@ -54,23 +53,6 @@ class _UserLoginState extends State<UserLogin> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
 
                 children: [
-                  Text(
-                    "Name",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                  ),
-
-                  CustomTextForm(
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value.length <= 3) {
-                        return "name should be greater than 3 letter";
-                      }
-                      return null;
-                    },
-                    controller: _name,
-                    obscureText: false,
-                    prefixIcon: Icon(Icons.person),
-                  ),
-                  SizedBox(height: 50),
                   Text(
                     "Email",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
@@ -122,46 +104,52 @@ class _UserLoginState extends State<UserLogin> {
                   SizedBox(height: 30),
                   Container(
                     padding: EdgeInsets.all(8.0),
-                    child: BlocListener<SignUpBloc, SignUpState>(
+                    child: BlocListener<LoginBloc, LoginState>(
                       listener: (context, state) {
-                        if (state is SignUpLoading) {
+                        if (state is LoginLoading) {
                           context.showLoadingDialog();
-                        } else if (state is SignUpLoaded) {
+                        } else if (state is LoginLoaded) {
                           context.showSnackbar(state.msg);
                           context.pop();
-                          context.pushReplacement(
-                            VerificationOtp(email: _email.text),
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => Homepage()),
+                            (_) => false,
                           );
-                        } else if (state is SignUpError) {
+                        } else if (state is LoginFailure) {
                           context.showSnackbar(state.msg);
                           context.pop();
                         }
                       },
 
                       child: PrimartButton(
-                        lableText: "Signin",
+                        lableText: "Login",
                         onpressed: () {
                           if (_formkey.currentState?.validate() == false) {
                             return;
                           }
-                          final signUp = SignUpModel(
+                          final login = LoginModel(
                             email: _email.text,
                             password: _password.text,
-                            name: _name.text,
                           );
-                          context.read<SignUpBloc>().add(SignUpEvent(signUp));
+                          context.read<LoginBloc>().add(
+                            LoginEvent(loginModel: login),
+                          );
                         },
                       ),
                     ),
                   ),
                   Row(
                     children: [
-                      Text("Already have account?"),
+                      Text("Dont  have account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => UserLogin(),
+                            ),
+                          );
                         },
-                        child: Text("Login"),
+                        child: Text("signUp"),
                       ),
                     ],
                   ),

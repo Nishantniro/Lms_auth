@@ -1,19 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:lms/core/data/storage/token_service.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioClient {
   late Dio dio;
   DioClient() {
-    dio = Dio(BaseOptions(
-      
-      baseUrl: "https://lunar-lms.onrender.com/api"
-      
-      
-      ));
+    dio = Dio(BaseOptions(baseUrl: "https://lunar-lms.onrender.com/api"));
 
     dio.interceptors.add(
-      
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -31,5 +26,18 @@ class DioClient {
         },
       ),
     );
+  }
+}
+
+class AuthInterceptor extends Interceptor {
+  @override
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
+    final accessToken = await TokenService.instance.getAccessToken();
+    options.headers['Authorization'] = "Bearer $accessToken";
+
+    super.onRequest(options, handler);
   }
 }
