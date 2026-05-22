@@ -26,18 +26,20 @@ class DioClient {
         },
       ),
     );
+    dio.interceptors.add(AuthInterceptor());
   }
 }
 
 class AuthInterceptor extends Interceptor {
   @override
-  Future<void> onRequest(
+  void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
     final accessToken = await TokenService.instance.getAccessToken();
-    options.headers['Authorization'] = "Bearer $accessToken";
-    
+    if (accessToken != null) {
+      options.headers["Authorization"] = "Bearer $accessToken";
+    }
 
     super.onRequest(options, handler);
   }

@@ -9,6 +9,8 @@ import 'package:lms/features/auth/pages/verification_otp.dart';
 
 class UserLogin extends StatefulWidget {
   const UserLogin({super.key});
+    static const String routeName = "/signup";
+
 
   @override
   State<UserLogin> createState() => _UserLoginState();
@@ -129,9 +131,7 @@ class _UserLoginState extends State<UserLogin> {
                         } else if (state is SignUpLoaded) {
                           context.showSnackbar(state.msg);
                           context.pop();
-                          context.pushReplacement(
-                            VerificationOtp(email: _email.text),
-                          );
+                          Navigator.of(context).pushNamed(VerificationOtp.routeName);
                         } else if (state is SignUpError) {
                           context.showSnackbar(state.msg);
                           context.pop();

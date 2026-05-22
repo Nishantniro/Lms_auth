@@ -1,8 +1,8 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms/features/auth/model/token_model.dart';
 
-final String _accessToken = "access";
-final String _refreshToken = "refresh";
+final String _accessToken = "access_token";
+final String _refreshToken = "refresh_token";
 
 class TokenService {
   TokenService._();

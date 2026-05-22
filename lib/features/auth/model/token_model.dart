@@ -5,6 +5,9 @@ class TokenModel {
   TokenModel({required this.access, required this.refresh});
 
   factory TokenModel.fromMap(Map<String, dynamic> map) {
-    return TokenModel(access: map['access'], refresh: map['refresh']);
+    return TokenModel(
+      access: map['access_token'],
+      refresh: map['refresh_token'],
+    );
   }
 }

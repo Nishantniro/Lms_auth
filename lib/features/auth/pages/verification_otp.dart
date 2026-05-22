@@ -8,6 +8,8 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerificationOtp extends StatelessWidget {
   const VerificationOtp({super.key, required this.email});
+  static const String routeName = "/otp";
+
   final String email;
 
   @override
@@ -41,7 +43,7 @@ class VerificationOtp extends StatelessWidget {
                 } else if (state is OtpLoaded) {
                   context.pop();
                   context.showSnackbar("otp verified successfully");
-                  context.pushReplacement(Homepage());
+                  Navigator.of(context).pushNamed(Homepage.routeName);
                 } else if (state is OtpFailure) {
                   context.pop();
                   context.showSnackbar(state.msg);

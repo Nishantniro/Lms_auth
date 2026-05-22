@@ -7,7 +7,6 @@ import 'package:lms/features/auth/model/sign_up_model.dart';
 import 'package:lms/features/auth/model/token_model.dart';
 // import 'package:lms/features/auth/model/token_model.dart';
 import 'package:lms/features/auth/model/verify_otp_request_model.dart';
-import 'package:lms/features/auth/model/verify_token_response_model.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
@@ -25,7 +24,7 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, VerifyTokenResponseModel>> verifyopt({
+  Future<Either<String, TokenModel>> verifyopt({
     required VerifyOtpRequestModel verify,
   }) async {
     try {
@@ -34,8 +33,8 @@ class AuthRepository {
         data: verify.toMap(),
       );
 
-      final finaldata = VerifyTokenResponseModel.fromMap(response.data);
-      await TokenService.instance.save(finaldata.token);
+      final finaldata = TokenModel.fromMap(response.data['token']);
+      await TokenService.instance.save(finaldata);
 
       return right(finaldata);
     } catch (e) {

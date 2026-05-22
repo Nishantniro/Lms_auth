@@ -7,6 +7,8 @@ import 'package:lms/features/trainer/model/apply_trainer_model.dart';
 
 class ApplyTrainer extends StatefulWidget {
   const ApplyTrainer({super.key});
+    static const String routeName = "/trainer-form";
+
 
   @override
   State<ApplyTrainer> createState() => _ApplyTrainerState();
@@ -29,45 +31,55 @@ class _ApplyTrainerState extends State<ApplyTrainer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Apply for trainer")),
-      body: Column(
-        spacing: 12,
-        children: [
-          Text("Bio", style: TextStyle(fontSize: 30)),
-          CustomTextForm(
-            controller: _bio,
-            prefixIcon: Icon(Icons.library_books_sharp),
-          ),
-          SizedBox(),
-          Text("expertise", style: TextStyle(fontSize: 30)),
-          CustomTextForm(
-            controller: _expertise,
-            prefixIcon: Icon(Icons.lightbulb),
-          ),
-          SizedBox(),
-          Text("experienceYears", style: TextStyle(fontSize: 30)),
-          CustomTextForm(
-            controller: _bio,
-            prefixIcon: Icon(Icons.calendar_month),
-          ),
-          SizedBox(),
-          SizedBox(),
-          BlocBuilder<ApplyTrainerBloc, ApplyTrainerState>(
-            builder: (context, state) {
-              return PrimartButton(
-                lableText: "Apply",
-                onpressed: () {
-                  int experienceYears = int.parse(_experienceYears.text);
-                  final form = ApplyTrainerModel(
-                    bio: _bio.text,
-                    expertise: _expertise.text,
-                    experienceYears: experienceYears,
-                  );
-                  context.read<ApplyTrainerBloc>().add(ApplyTrainerEvent(form));
-                },
-              );
-            },
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 6,
+              children: [
+                Text("Bio", style: TextStyle(fontSize: 24)),
+                CustomTextForm(
+                  controller: _bio,
+                  prefixIcon: Icon(Icons.library_books_sharp),
+                ),
+                SizedBox(),
+                Text("expertise", style: TextStyle(fontSize: 24)),
+                CustomTextForm(
+                  controller: _expertise,
+                  prefixIcon: Icon(Icons.lightbulb),
+                ),
+                SizedBox(),
+                Text("experienceYears", style: TextStyle(fontSize: 24)),
+                CustomTextForm(
+                  controller: _experienceYears,
+                  prefixIcon: Icon(Icons.calendar_month),
+                ),
+                SizedBox(),
+                SizedBox(),
+                BlocBuilder<ApplyTrainerBloc, ApplyTrainerState>(
+                  builder: (context, state) {
+                    return PrimartButton(
+                      lableText: "Apply",
+                      onpressed: () {
+                        int experienceYears = int.parse(_experienceYears.text);
+                        final form = ApplyTrainerModel(
+                          bio: _bio.text,
+                          expertise: _expertise.text,
+                          experienceYears: experienceYears,
+                        );
+                        context.read<ApplyTrainerBloc>().add(
+                          ApplyTrainerEvent(form),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

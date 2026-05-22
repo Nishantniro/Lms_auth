@@ -10,6 +10,7 @@ import 'package:lms/features/home/home.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
+  static const String routeName = "/login";
 
   @override
   State<Login> createState() => _LoginState();
@@ -111,8 +112,8 @@ class _LoginState extends State<Login> {
                         } else if (state is LoginLoaded) {
                           context.showSnackbar(state.msg);
                           context.pop();
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => Homepage()),
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            Homepage.routeName,
                             (_) => false,
                           );
                         } else if (state is LoginFailure) {
@@ -143,11 +144,7 @@ class _LoginState extends State<Login> {
                       Text("Dont  have account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => UserLogin(),
-                            ),
-                          );
+                          Navigator.of(context).pushNamed(UserLogin.routeName);
                         },
                         child: Text("signUp"),
                       ),

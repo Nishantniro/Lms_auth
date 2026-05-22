@@ -7,6 +7,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
+  static const String routeName = "/home";
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -16,41 +17,47 @@ class _HomepageState extends State<Homepage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    context.read<ProfileBloc>().add(GetProfileEvent());
+    context.read<ProfileBloc>().add(ProfileEvent());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        child: Column(
-          children: [
-            BlocBuilder<ProfileBloc, ProfileState>(
-              builder: (context, state) {
-                if (state is ProfileLoaded) {
-                  bool hasTrainerProfile = state.profileModel.hastrainerprofile;
+        child: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is ProfileLoaded) {
+                    bool hasTrainerProfile =
+                        state.profileModel.hastrainerprofile;
 
-                  return FilledButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => hasTrainerProfile
-                              ? TrainerProfile()
-                              : ApplyTrainer(),
-                        ),
-                      );
-                    },
-                    child: hasTrainerProfile
-                        ? Text("Trainer Profile")
-                        : Text("Apply"),
-                  );
-                } else {
-                  return Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-          ],
+                    return FilledButton(
+                      onPressed: () {
+                        if (hasTrainerProfile) {
+                          Navigator.of(
+                            context,
+                          ).pushNamed(TrainerProfile.routeName);
+                        } else {
+                          Navigator.of(
+                            context,
+                          ).pushNamed(ApplyTrainer.routeName);
+                        }
+                      },
+
+                      child: hasTrainerProfile
+                          ? Text("Trainer Profile")
+                          : Text("Apply"),
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
       appBar: AppBar(title: Text("welcome home")),

@@ -7,17 +7,19 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final ProfileRepositories _profileRepositories = ProfileRepositories();
+  // final ProfileRepositories _profileRepositories = ProfileRepositories();
   ProfileBloc() : super(ProfileInitial()) {
-    on<GetProfileEvent>(_getProfile);
+    on<ProfileEvent>(_getProfile);
   }
   Future<void> _getProfile(
-    GetProfileEvent event,
+    ProfileEvent event,
     Emitter<ProfileState> emit,
   ) async {
+    final ProfileRepositories profileRepositories = ProfileRepositories();
+
     emit(ProfileLoading());
 
-    final data = await _profileRepositories.getProfile();
+    final data = await profileRepositories.getProfile();
 
     data.fold(
       (l) => emit(ProfileFaliure(msg: l)),
