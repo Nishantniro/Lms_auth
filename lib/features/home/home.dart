@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms/core/bloc/profile/profile_bloc.dart';
+import 'package:lms/features/auth/model/profile_model.dart';
 import 'package:lms/features/trainer/pages/apply_trainer.dart';
 import 'package:lms/features/trainer/pages/trainer_profile.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -26,34 +27,83 @@ class _HomepageState extends State<Homepage> {
       drawer: Drawer(
         child: SafeArea(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
+                  if (state is ProfileLoading) {
+                    return Center(
+                      child: LoadingAnimationWidget.newtonCradle(
+                        color: Colors.black,
+                        size: 60,
+                      ),
+                    );
+                  }
                   if (state is ProfileLoaded) {
                     bool hasTrainerProfile =
                         state.profileModel.hastrainerprofile;
 
-                    return FilledButton(
-                      onPressed: () {
-                        if (hasTrainerProfile) {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(TrainerProfile.routeName);
-                        } else {
-                          Navigator.of(
-                            context,
-                          ).pushNamed(ApplyTrainer.routeName);
-                        }
-                      },
+                    final ProfileModel profileModel = state.profileModel;
+                    return SingleChildScrollView(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          const CircleAvatar(
+                            radius: 50,
+                            child: Icon(Icons.person, size: 50),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            profileModel.name,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
 
-                      child: hasTrainerProfile
-                          ? Text("Trainer Profile")
-                          : Text("Apply"),
+                          Text(
+                            "@${profileModel.username}",
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
+                          const SizedBox(height: 4),
+
+                          Text(
+                            profileModel.email,
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          ListTile(
+                            tileColor: const Color(0xFFEDE7F6),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+
+                            leading: const Icon(Icons.person),
+
+                            title: Text(
+                              hasTrainerProfile ? "Trainer Profile" : "Apply",
+                            ),
+
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios,
+                              size: 18,
+                            ),
+
+                            onTap: () {
+                              Navigator.of(context).pushNamed(
+                                hasTrainerProfile
+                                    ? TrainerProfile.routeName
+                                    : ApplyTrainer.routeName,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     );
-                  } else {
-                    return Center(child: CircularProgressIndicator());
                   }
+                  if (state is ProfileFaliure) {
+                    return Center(child: Text(state.msg));
+                  }
+                  return const SizedBox();
                 },
               ),
             ],

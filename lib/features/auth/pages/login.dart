@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
               style: TextStyle(fontWeight: FontWeight.w800, fontSize: 44),
             ),
             Text(
-              "sign up to continue",
+              "Login to continue",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
             ),
 
