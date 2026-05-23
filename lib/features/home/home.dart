@@ -111,34 +111,12 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
       appBar: AppBar(title: Text("welcome home")),
-      body: BlocBuilder<ProfileBloc, ProfileState>(
-        builder: (context, state) {
-          if (state is ProfileLoading) {
-            return Center(
-              child: LoadingAnimationWidget.newtonCradle(
-                color: Colors.black,
-                size: 45,
-              ),
-            );
-          }
-          if (state is ProfileLoaded) {
-            return Center(
-              child: Column(
-                children: [
-                  Text(state.profileModel.name, style: TextStyle(fontSize: 30)),
-                  Text(
-                    state.profileModel.email,
-                    style: TextStyle(fontSize: 30),
-                  ),
-                ],
-              ),
-            );
-          }
-          if (state is ProfileFaliure) {
-            return Text(state.msg);
-          }
-          return SizedBox();
-        },
+      body: Center(
+        child: LoadingAnimationWidget.flickr(
+          leftDotColor: const Color.fromARGB(255, 207, 68, 58),
+          rightDotColor: const Color.fromARGB(255, 36, 17, 17),
+          size: 60,
+        ),
       ),
     );
   }
