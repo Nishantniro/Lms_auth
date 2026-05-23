@@ -37,8 +37,12 @@ class AuthInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     final accessToken = await TokenService.instance.getAccessToken();
-    if (accessToken != null) {
-      options.headers["Authorization"] = "Bearer  $accessToken";
+    final isPublicRoute =
+        options.path.contains('/auth/login/') ||
+        options.path.contains('/auth/sign-up/');
+
+    if (!isPublicRoute && accessToken != null) {
+      options.headers["Authorization"] = "Bearer $accessToken";
     }
 
     super.onRequest(options, handler);

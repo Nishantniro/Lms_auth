@@ -8,7 +8,7 @@ class CourseRepository {
   final DioClient _repo = DioClient();
   FutureEither<List<CategoryModel>> getCategories() async {
     try {
-      final response = await _repo.dio.get("courses/categories/");
+      final response = await _repo.dio.get("/courses/categories/");
       final categories = List.from(
         response.data,
       ).map((e) => CategoryModel.fromMap(e)).toList();
@@ -20,7 +20,7 @@ class CourseRepository {
 
   FutureEither<List<CategoryModel>> getCategoryTree() async {
     try {
-      final response = await _repo.dio.get("courses/categories/tree/");
+      final response = await _repo.dio.get("/courses/categories/tree/");
       final categories = List.from(
         response.data,
       ).map((e) => CategoryModel.fromMap(e)).toList();
@@ -32,7 +32,7 @@ class CourseRepository {
 
   FutureEither<CategoryModel> getCategoryDetail(String slug) async {
     try {
-      final response = await _repo.dio.get("courses/categories/$slug/");
+      final response = await _repo.dio.get("/courses/categories/$slug/");
       final category = CategoryModel.fromMap(response.data);
       return Right(category);
     } catch (e) {

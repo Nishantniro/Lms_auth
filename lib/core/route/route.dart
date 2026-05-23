@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lms/features/auth/pages/login.dart';
 import 'package:lms/features/auth/pages/sign_up.dart';
 import 'package:lms/features/auth/pages/verification_otp.dart';
+import 'package:lms/features/course/page/create_course.dart';
 import 'package:lms/features/home/home.dart';
 import 'package:lms/features/trainer/pages/apply_trainer.dart';
 import 'package:lms/features/trainer/pages/trainer_profile.dart';
@@ -30,6 +31,9 @@ class AppRoute {
 
           case ApplyTrainer.routeName:
             return ApplyTrainer();
+
+          case CreateCourse.routeName:
+            return CreateCourse();
 
           default:
             return Scaffold(body: Text("Invalid 404 route not found"));

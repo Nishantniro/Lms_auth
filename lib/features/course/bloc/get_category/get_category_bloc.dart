@@ -7,14 +7,15 @@ part 'get_category_event.dart';
 part 'get_category_state.dart';
 
 class GetCategoryBloc extends Bloc<GetCategoryEvent, GetCategoryState> {
-  final CourseRepository repo;
-  GetCategoryBloc(this.repo) : super(GetCategoryInitial()) {
-    on<FetchCategories>(_fetchCategories);
+  GetCategoryBloc() : super(GetCategoryInitial()) {
+    on<GetCategoryEvent>(_fetchCategories);
   }
   Future<void> _fetchCategories(
-    FetchCategories event,
+    GetCategoryEvent event,
     Emitter<GetCategoryState> emit,
   ) async {
+    final CourseRepository repo = CourseRepository();
+
     emit(GetCategoryLoading());
     final result = await repo.getCategoryTree();
     result.fold(

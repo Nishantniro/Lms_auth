@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lms/features/course/page/create_course.dart';
 import 'package:lms/features/trainer/bloc/bloc/trainer_profile_bloc.dart';
 import 'package:lms/features/trainer/model/trainer_profile_model.dart';
 
 class TrainerProfile extends StatefulWidget {
   const TrainerProfile({super.key});
-    static const String routeName = "/trainer-profile";
-
+  static const String routeName = "/trainer-profile";
 
   @override
   State<TrainerProfile> createState() => _TrainerProfileState();
@@ -22,7 +22,18 @@ class _TrainerProfileState extends State<TrainerProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Trainer Profile")),
+      appBar: AppBar(
+        title: const Text("Trainer Profile"),
+
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(CreateCourse.routeName);
+            },
+            child: Text("create course"),
+          ),
+        ],
+      ),
 
       body: BlocBuilder<TrainerProfileBloc, TrainerProfileState>(
         builder: (context, state) {
@@ -261,3 +272,4 @@ class _TrainerProfileState extends State<TrainerProfile> {
     );
   }
 }
+

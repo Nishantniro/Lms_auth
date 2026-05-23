@@ -7,6 +7,7 @@ import 'package:lms/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:lms/core/bloc/profile/profile_bloc.dart';
 import 'package:lms/features/auth/bloc/sign_up/sign_up_bloc.dart';
 import 'package:lms/features/auth/pages/login.dart';
+import 'package:lms/features/course/bloc/get_category/get_category_bloc.dart';
 import 'package:lms/features/home/home.dart';
 // import 'package:lms/features/auth/pages/login.dart';
 import 'package:lms/features/trainer/bloc/apply_trainer/apply_trainer_bloc.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(create: (context) => TrainerProfileBloc()),
         BlocProvider(create: (context) => ApplyTrainerBloc()),
+        BlocProvider(create: (context) => GetCategoryBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
