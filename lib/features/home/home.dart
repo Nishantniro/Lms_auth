@@ -113,8 +113,8 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(title: Text("welcome home")),
       body: Center(
         child: LoadingAnimationWidget.flickr(
-          leftDotColor: const Color.fromARGB(255, 207, 68, 58),
-          rightDotColor: const Color.fromARGB(255, 36, 17, 17),
+          leftDotColor: Colors.red,
+          rightDotColor: Colors.cyanAccent,
           size: 60,
         ),
       ),

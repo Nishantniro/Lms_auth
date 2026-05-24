@@ -70,7 +70,31 @@ class _CreateCourseState extends State<CreateCourse> {
       appBar: AppBar(title: Text("Create your course")),
 
       body: Column(
+        crossAxisAlignment: .start,
         children: [
+          IconButton(
+            onPressed: () {
+              final currentPage = _controller.page?.round() ?? 0;
+              if (currentPage == 0) return;
+              if (currentPage == 1) {
+                setState(() {
+                  selectedMainCategory = null;
+                  selectedSubCategory = null;
+                });
+              }
+              if (currentPage == 2) {
+                setState(() {
+                  selectedSubCategory = null;
+                });
+              }
+              _controller.previousPage(
+                duration: Duration(milliseconds: 300),
+                curve: Curves.easeIn,
+              );
+            },
+            icon: Icon(Icons.chevron_left),
+          ),
+
           buildBreadcrumbs(),
           BlocBuilder<GetCategoryBloc, GetCategoryState>(
             builder: (context, state) {
@@ -84,6 +108,23 @@ class _CreateCourseState extends State<CreateCourse> {
                     controller: _controller,
                     physics: NeverScrollableScrollPhysics(),
                     children: [
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     Padding(
+                      //       padding: const EdgeInsets.all(8.0),
+                      // child: IconButton(
+                      //   onPressed: () {
+                      //     _controller.previousPage(
+                      //       duration: Duration(milliseconds: 300),
+                      //       curve: Curves.easeIn,
+                      //     );
+                      //   },
+                      //   icon: Icon(Icons.chevron_left),
+                      // ),
+                      //     ),
+                      //   ],
+                      // ),
                       MainCategory(
                         onSelect: (category) {
                           setState(() {
