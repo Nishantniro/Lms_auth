@@ -39,9 +39,10 @@ class AuthInterceptor extends Interceptor {
     final accessToken = await TokenService.instance.getAccessToken();
     final isPublicRoute =
         options.path.contains('/auth/login/') ||
-        options.path.contains('/auth/sign-up/');
+        options.path.contains('/auth/sign-up/') ||
+        options.path.contains('/auth/verify-email/');
 
-    if (!isPublicRoute && accessToken != null) {
+    if (!isPublicRoute && accessToken != null && accessToken.isNotEmpty) {
       options.headers["Authorization"] = "Bearer $accessToken";
     }
 

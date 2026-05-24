@@ -8,12 +8,12 @@ import 'package:lms/features/trainer/pages/apply_trainer.dart';
 import 'package:lms/features/trainer/pages/trainer_profile.dart';
 
 class AppRoute {
-  static Route<dynamic> onGenerateRoute(RouteSettings setting) {
-    dynamic args = setting.arguments;
+  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
+    dynamic args = settings.arguments;
 
     return MaterialPageRoute(
       builder: (context) {
-        switch (setting.name) {
+        switch (settings.name) {
           case Homepage.routeName:
             return Homepage();
 
