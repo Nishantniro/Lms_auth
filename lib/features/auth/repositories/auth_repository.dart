@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:lms/core/data/storage/token_service.dart';
 import 'package:lms/core/error/error_handler.dart';
 import 'package:lms/core/networks/dio_client.dart';
+import 'package:lms/core/typedef/typedef.dart';
 import 'package:lms/features/auth/model/login_model.dart';
 import 'package:lms/features/auth/model/sign_up_model.dart';
 import 'package:lms/features/auth/model/token_model.dart';
@@ -12,7 +13,7 @@ import 'package:lms/features/auth/model/verify_otp_request_model.dart';
 class AuthRepository {
   final DioClient _dioClient = DioClient();
 
-  Future<Either<String, String>> signup({required SignUpModel signup}) async {
+  FutureEither<String> signup({required SignUpModel signup}) async {
     try {
       final response = await _dioClient.dio.post(
         "/auth/sign-up/",
@@ -24,7 +25,7 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, TokenModel>> verifyopt({
+  FutureEither<TokenModel> verifyopt({
     required VerifyOtpRequestModel verify,
   }) async {
     try {
@@ -42,7 +43,7 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, String>> login({required LoginModel login}) async {
+  FutureEither<String> login({required LoginModel login}) async {
     try {
       final response = await _dioClient.dio.post(
         "/auth/login/",
@@ -56,7 +57,7 @@ class AuthRepository {
     }
   }
 
-  Future<Either<String, TokenModel>> refresh(String refresh) async {
+  FutureEither<String> refresh(String refresh) async {
     try {
       final response = await _dioClient.dio.post(
         "/auth/token/refresh/",

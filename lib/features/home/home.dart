@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms/core/bloc/profile/profile_bloc.dart';
+import 'package:lms/core/data/storage/token_service.dart';
+import 'package:lms/core/widgets/cutom_filled_buttom.dart';
 import 'package:lms/features/auth/model/profile_model.dart';
+import 'package:lms/features/auth/pages/login.dart';
 import 'package:lms/features/trainer/pages/apply_trainer.dart';
 import 'package:lms/features/trainer/pages/trainer_profile.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -104,6 +107,18 @@ class _HomepageState extends State<Homepage> {
                     return Center(child: Text(state.msg));
                   }
                   return const SizedBox();
+                },
+              ),
+
+              AppFilledButton(
+                text: "Logout",
+                icon: Icons.logout_rounded,
+                backgroundColor: const Color.fromARGB(255, 60, 1, 70),
+                onPressed: () {
+                  TokenService.instance.clear();
+                  Navigator.of(
+                    context,
+                  ).pushNamedAndRemoveUntil(Login.routeName, (_) => false);
                 },
               ),
             ],
