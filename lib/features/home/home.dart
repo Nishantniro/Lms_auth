@@ -28,9 +28,15 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
+        
+
         child: SafeArea(
+          
           child: Column(
+          
+            
             children: [
+              
               BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state is ProfileLoading) {
@@ -47,7 +53,7 @@ class _HomepageState extends State<Homepage> {
 
                     final ProfileModel profileModel = state.profileModel;
                     return SingleChildScrollView(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
                           const CircleAvatar(
@@ -109,8 +115,8 @@ class _HomepageState extends State<Homepage> {
                   return const SizedBox();
                 },
               ),
-
               AppFilledButton(
+                
                 text: "Logout",
                 icon: Icons.logout_rounded,
                 backgroundColor: const Color.fromARGB(255, 60, 1, 70),

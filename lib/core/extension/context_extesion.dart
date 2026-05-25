@@ -5,7 +5,7 @@ extension ContextExtesion on BuildContext {
   void showSnackbar(String msg) {
     ScaffoldMessenger.of(this).showSnackBar(SnackBar(content: Text(msg)));
   }
-  
+
   void showLoadingDialog() {
     showDialog(
       context: this,
@@ -14,7 +14,8 @@ extension ContextExtesion on BuildContext {
           child: Container(
             height: 60,
             width: 60,
-            color: Colors.white,
+            color: Colors.transparent,
+
             child: LoadingAnimationWidget.inkDrop(
               color: Colors.yellow,
               size: 50,
@@ -35,5 +36,4 @@ extension ContextExtesion on BuildContext {
       MaterialPageRoute(builder: (context) => page),
     );
   }
-  
 }

@@ -17,13 +17,14 @@ class AppFilledButton extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.borderRadius = 14,
-    this.height = 52,
+    this.height = 70,
     this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      padding: EdgeInsets.all(10),
       width: double.infinity,
       height: height,
       child: FilledButton(
