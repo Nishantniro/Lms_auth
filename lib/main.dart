@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms/core/route/route.dart';
+import 'package:lms/features/admin/bloc/bloc/add_category_bloc.dart';
 import 'package:lms/features/auth/bloc/login/login_bloc.dart';
 import 'package:lms/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:lms/core/bloc/profile/profile_bloc.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => TrainerProfileBloc()),
         BlocProvider(create: (context) => ApplyTrainerBloc()),
         BlocProvider(create: (context) => GetCategoryBloc()),
+        BlocProvider(create: (context) => AddCategoryBloc()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

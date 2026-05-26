@@ -146,7 +146,7 @@ class _CreateCourseState extends State<CreateCourse> {
                                   selectedSubCategory = category;
                                 });
 
-                                if (category.isLeaf) {
+                                if (category.isLeaf!) {
                                   _controller.nextPage(
                                     duration: Duration(milliseconds: 300),
                                     curve: Curves.easeIn,

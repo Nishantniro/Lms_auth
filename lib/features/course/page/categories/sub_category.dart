@@ -22,7 +22,7 @@ class SubCategory extends StatelessWidget {
         final category = subCategory[index];
         return ListTile(
           title: Text(category.name),
-          subtitle: Text(category.fullPath),
+          subtitle: Text(category.fullPath!),
           trailing: Icon(Icons.arrow_forward_ios),
           onTap: () {
             onSelect(category);

@@ -1,25 +1,25 @@
 class CategoryModel {
-  final String id;
+  final String? id;
   final String? parent;
   final String name;
   final String slug;
   final String description;
   final bool isActive;
-  final String childrenCount;
-  final bool isLeaf;
-  final String fullPath;
+  final String? childrenCount;
+  final bool? isLeaf;
+  final String? fullPath;
   final List<CategoryModel> children;
 
   CategoryModel({
-    required this.id,
+    this.id,
     this.parent,
     required this.name,
     required this.slug,
     required this.description,
     required this.isActive,
-    required this.childrenCount,
-    required this.isLeaf,
-    required this.fullPath,
+    this.childrenCount,
+    this.isLeaf,
+    this.fullPath,
     this.children = const [],
   });
 
@@ -44,16 +44,11 @@ class CategoryModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'parent': parent,
       'name': name,
       'slug': slug,
       'description': description,
       'is_active': isActive,
-      'children_count': childrenCount,
-      'is_leaf': isLeaf,
-      'full_path': fullPath,
-      'children': children.map((e) => e.toMap()).toList(),
     };
   }
 }

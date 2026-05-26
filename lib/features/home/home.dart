@@ -28,15 +28,9 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: Drawer(
-        
-
         child: SafeArea(
-          
           child: Column(
-          
-            
             children: [
-              
               BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state is ProfileLoading) {
@@ -50,6 +44,7 @@ class _HomepageState extends State<Homepage> {
                   if (state is ProfileLoaded) {
                     bool hasTrainerProfile =
                         state.profileModel.hastrainerprofile;
+                    String role = state.profileModel.roles.first;
 
                     final ProfileModel profileModel = state.profileModel;
                     return SingleChildScrollView(
@@ -105,6 +100,31 @@ class _HomepageState extends State<Homepage> {
                               );
                             },
                           ),
+                          role == "admin"
+                              ? ListTile(
+                                  tileColor: const Color(0xFFEDE7F6),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+
+                                  leading: const Icon(Icons.person),
+
+                                  title: Text("Admin Operation"),
+
+                                  trailing: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 18,
+                                  ),
+
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      hasTrainerProfile
+                                          ? TrainerProfile.routeName
+                                          : ApplyTrainer.routeName,
+                                    );
+                                  },
+                                )
+                              : SizedBox(),
                         ],
                       ),
                     );
@@ -116,7 +136,6 @@ class _HomepageState extends State<Homepage> {
                 },
               ),
               AppFilledButton(
-                
                 text: "Logout",
                 icon: Icons.logout_rounded,
                 backgroundColor: const Color.fromARGB(255, 60, 1, 70),

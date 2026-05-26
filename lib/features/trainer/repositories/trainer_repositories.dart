@@ -1,13 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:lms/core/error/error_handler.dart';
 import 'package:lms/core/networks/dio_client.dart';
+import 'package:lms/core/typedef/typedef.dart';
 import 'package:lms/features/trainer/model/apply_trainer_model.dart';
 import 'package:lms/features/trainer/model/trainer_profile_model.dart';
 
 class TrainerRepositories {
   final DioClient _client = DioClient();
 
-  Future<Either<String, String>> applyForTrainer(
+  FutureEither<String>applyForTrainer(
     ApplyTrainerModel apply,
   ) async {
     try {
