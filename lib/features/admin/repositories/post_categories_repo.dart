@@ -8,7 +8,7 @@ class PostCategoriesRepo {
 
   FutureEither<String> postcategory(CategoryModel category) async {
     try {
-      await _client.dio.post("admin/categories/", data: category.toMap());
+      await _client.dio.post("/admin/categories/", data: category.toMap());
       return Right("success fully added category");
     } catch (e) {
       rethrow;

@@ -5,15 +5,23 @@ import 'package:lms/core/widgets/primary_button.dart';
 import 'package:lms/features/admin/bloc/bloc/add_category_bloc.dart';
 import 'package:lms/features/course/bloc/get_category/get_category_bloc.dart';
 import 'package:lms/features/course/model/category.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AddCategories extends StatefulWidget {
   const AddCategories({super.key});
+  static const String routeName = "/add_category";
 
   @override
   State<AddCategories> createState() => _AddCategoriesState();
 }
 
 class _AddCategoriesState extends State<AddCategories> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    context.read<GetCategoryBloc>().add(GetCategoryEvent());
+  }
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController slugController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
@@ -37,6 +45,14 @@ class _AddCategoriesState extends State<AddCategories> {
           children: [
             BlocBuilder<GetCategoryBloc, GetCategoryState>(
               builder: (context, state) {
+                if (state is GetCategoryLoading) {
+                  return SizedBox(
+                    child: LoadingAnimationWidget.fourRotatingDots(
+                      color: Colors.black,
+                      size: 25,
+                    ),
+                  );
+                }
                 if (state is GetCategoryLoaded) {
                   return DropdownButtonFormField<CategoryModel>(
                     initialValue: selectedParent,

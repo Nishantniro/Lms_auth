@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lms/features/admin/pages/add_categories.dart';
 import 'package:lms/features/auth/pages/login.dart';
 import 'package:lms/features/auth/pages/sign_up.dart';
 import 'package:lms/features/auth/pages/verification_otp.dart';
@@ -34,6 +35,9 @@ class AppRoute {
 
           case CreateCourse.routeName:
             return CreateCourse();
+
+          case AddCategories.routeName:
+            return AddCategories();
 
           default:
             return Scaffold(body: Text("Invalid 404 route not found"));

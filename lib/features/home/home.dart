@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lms/core/bloc/profile/profile_bloc.dart';
 import 'package:lms/core/data/storage/token_service.dart';
 import 'package:lms/core/widgets/cutom_filled_buttom.dart';
+import 'package:lms/features/admin/pages/add_categories.dart';
 import 'package:lms/features/auth/model/profile_model.dart';
 import 'package:lms/features/auth/pages/login.dart';
 import 'package:lms/features/trainer/pages/apply_trainer.dart';
@@ -100,6 +101,7 @@ class _HomepageState extends State<Homepage> {
                               );
                             },
                           ),
+                          SizedBox(height: 10),
                           role == "admin"
                               ? ListTile(
                                   tileColor: const Color(0xFFEDE7F6),
@@ -117,11 +119,9 @@ class _HomepageState extends State<Homepage> {
                                   ),
 
                                   onTap: () {
-                                    Navigator.of(context).pushNamed(
-                                      hasTrainerProfile
-                                          ? TrainerProfile.routeName
-                                          : ApplyTrainer.routeName,
-                                    );
+                                    Navigator.of(
+                                      context,
+                                    ).pushNamed(AddCategories.routeName);
                                   },
                                 )
                               : SizedBox(),
