@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:lms/core/error/error_handler.dart';
 import 'package:lms/core/networks/dio_client.dart';
 import 'package:lms/core/typedef/typedef.dart';
 import 'package:lms/features/course/model/category.dart';
@@ -9,9 +10,9 @@ class PostCategoriesRepo {
   FutureEither<String> postcategory(CategoryModel category) async {
     try {
       await _client.dio.post("/admin/categories/", data: category.toMap());
-      return Right("success fully added category");
+      return Right("successfully added category");
     } catch (e) {
-      rethrow;
+      return Left(ErrorHandler.handelError(e));
     }
   }
 }

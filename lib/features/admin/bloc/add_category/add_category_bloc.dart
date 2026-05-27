@@ -13,7 +13,7 @@ class AddCategoryBloc extends Bloc<AddCategoryEvent, AddCategoryState> {
       final result = await _repo.postcategory(event.categoryModel);
       result.fold(
         (l) => emit(AddCategoryError(msg: l)),
-        (r) => emit(AddCategoryLoaded()),
+        (r) => emit(AddCategoryLoaded(msg: "sucessfully loaded")),
       );
     });
   }

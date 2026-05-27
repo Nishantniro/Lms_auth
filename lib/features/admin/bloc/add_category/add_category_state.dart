@@ -11,7 +11,13 @@ final class AddCategoryInitial extends AddCategoryState {}
 
 final class AddCategoryLoading extends AddCategoryState {}
 
-final class AddCategoryLoaded extends AddCategoryState {}
+final class AddCategoryLoaded extends AddCategoryState {
+  final String msg;
+
+  const AddCategoryLoaded({required this.msg});
+  @override
+  List<Object> get props => [msg];
+}
 
 final class AddCategoryError extends AddCategoryState {
   final String msg;

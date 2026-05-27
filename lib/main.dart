@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lms/core/route/route.dart';
-import 'package:lms/features/admin/bloc/bloc/add_category_bloc.dart';
+import 'package:lms/features/admin/bloc/add_category/add_category_bloc.dart';
 import 'package:lms/features/auth/bloc/login/login_bloc.dart';
 import 'package:lms/features/auth/bloc/otp/otp_bloc.dart';
 import 'package:lms/core/bloc/profile/profile_bloc.dart';
@@ -10,7 +10,6 @@ import 'package:lms/features/auth/bloc/sign_up/sign_up_bloc.dart';
 import 'package:lms/features/auth/pages/login.dart';
 import 'package:lms/features/course/bloc/get_category/get_category_bloc.dart';
 import 'package:lms/features/home/home.dart';
-// import 'package:lms/features/auth/pages/login.dart';
 import 'package:lms/features/trainer/bloc/apply_trainer/apply_trainer_bloc.dart';
 import 'package:lms/features/trainer/bloc/bloc/trainer_profile_bloc.dart';
 

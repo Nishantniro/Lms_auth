@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lms/core/extension/context_extesion.dart';
 import 'package:lms/core/widgets/custom_text_form.dart';
 import 'package:lms/core/widgets/primary_button.dart';
-import 'package:lms/features/admin/bloc/bloc/add_category_bloc.dart';
+import 'package:lms/features/admin/bloc/add_category/add_category_bloc.dart';
 import 'package:lms/features/course/bloc/get_category/get_category_bloc.dart';
 import 'package:lms/features/course/model/category.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -97,25 +98,35 @@ class _AddCategoriesState extends State<AddCategories> {
               prefixIcon: Icon(Icons.calendar_month),
             ),
             SizedBox(),
-            SizedBox(),
-            BlocBuilder<AddCategoryBloc, AddCategoryState>(
-              builder: (context, state) {
-                return PrimartButton(
-                  lableText: "Apply",
-                  onpressed: () {
-                    final category = CategoryModel(
-                      parent: selectedParent?.id,
-                      name: nameController.text,
-                      slug: slugController.text,
-                      description: descriptionController.text,
-                      isActive: true,
-                    );
-                    context.read<AddCategoryBloc>().add(
-                      AddCategoryEvent(categoryModel: category),
-                    );
-                  },
-                );
+            SizedBox(height: 20),
+
+            BlocListener<AddCategoryBloc, AddCategoryState>(
+              listener: (context, state) {
+                if (state is AddCategoryError) {
+                  context.showSnackbar(state.msg);
+                } else if (state is AddCategoryLoading) {
+                  context.showLoadingDialog();
+                } else if (state is AddCategoryLoaded) {
+                  context.pop();
+                  context.showSnackbar(state.msg);
+                  context.pop();
+                }
               },
+              child: PrimartButton(
+                lableText: "Apply",
+                onpressed: () {
+                  final category = CategoryModel(
+                    parent: selectedParent?.id,
+                    name: nameController.text,
+                    slug: slugController.text,
+                    description: descriptionController.text,
+                    isActive: true,
+                  );
+                  context.read<AddCategoryBloc>().add(
+                    AddCategoryEvent(categoryModel: category),
+                  );
+                },
+              ),
             ),
           ],
         ),
