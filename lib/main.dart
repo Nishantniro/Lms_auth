@@ -13,6 +13,8 @@ import 'package:lms/features/home/home.dart';
 import 'package:lms/features/trainer/bloc/apply_trainer/apply_trainer_bloc.dart';
 import 'package:lms/features/trainer/bloc/bloc/trainer_profile_bloc.dart';
 
+GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   const storage = FlutterSecureStorage();
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AddCategoryBloc()),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),

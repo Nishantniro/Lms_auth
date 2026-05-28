@@ -1,13 +1,20 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:lms/core/data/storage/token_service.dart';
+import 'package:lms/core/networks/network_const.dart';
 import 'package:lms/features/auth/model/token_model.dart';
+import 'package:lms/features/auth/pages/login.dart';
+
+import 'package:lms/main.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioClient {
   late Dio dio;
   DioClient() {
-    dio = Dio(BaseOptions(baseUrl: "https://lunar-lms.onrender.com/api"));
+    dio = Dio(BaseOptions(baseUrl: kBaseUrl));
 
     dio.interceptors.add(
       PrettyDioLogger(
@@ -32,9 +39,9 @@ class DioClient {
 }
 
 class AuthInterceptor extends Interceptor {
+  Completer<String?>? _completer;
   final Dio dio;
   AuthInterceptor(this.dio);
-  bool _isRefreshing = false;
   @override
   void onRequest(
     RequestOptions options,
@@ -56,32 +63,54 @@ class AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    if (err.response?.statusCode == 401 && !_isRefreshing) {
-      _isRefreshing = true;
-      try {
+    if (err.response?.statusCode == 401) {
+      if (_completer == null) {
+        _completer = Completer();
         final refreshToken = await TokenService.instance.getRefreshToken();
-        if (refreshToken == null) {
-          await TokenService.instance.clear();
+
+        try {
+          final response = await dio.post(
+            "$kBaseUrl/auth/token/refresh/",
+            data: {"refresh": refreshToken},
+          );
+          final newTokens = TokenModel.fromMap(response.data);
+
+          await TokenService.instance.save(newTokens);
+          _completer?.complete(newTokens.access);
+
+          // final requestOptions = err.requestOptions;
+
+          // requestOptions.headers["Authoeization"] = "Bearer $newAccess";
+
+          // final cloneRespose = await dio.fetch(requestOptions);
+          // return handler.resolve(cloneRespose);
+        } catch (e) {
+          _completer?.complete(null);
+          // await TokenService.instance.clear();
+          // return handler.next(err);
         }
-        final response = await dio.post("/auth/token/refresh/");
-        final newToken = TokenModel.fromMap(response.data);
-
-        final newAccess = response.data['access'];
-
-        await TokenService.instance.save(newToken);
-        final requestOptions = err.requestOptions;
-
-        requestOptions.headers["Authoeization"] = "Bearer $newAccess";
-
-        final cloneRespose = await dio.fetch(requestOptions);
-        _isRefreshing = false;
-        return handler.resolve(cloneRespose);
-      } catch (e) {
-        _isRefreshing = false;
-        await TokenService.instance.clear();
-        return handler.next(err);
       }
+      final accessToken = await _completer?.future;
+
+      if (accessToken != null) {
+        try {
+          err.requestOptions.headers['Authorization'] = "Bearer $accessToken";
+          final response = await DioClient().dio.fetch(err.requestOptions);
+          return handler.resolve(response);
+        } catch (e) {
+          return handler.next(err);
+        } finally {
+          _completer = null;
+        }
+      }
+      TokenService.instance.clear();
+      navigatorKey.currentState!.pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Login()),
+        (_) => false,
+      );
+      _completer = null;
+      return handler.next(err);
     }
-    return handler.next(err);       
+    return handler.next(err);
   }
 }
