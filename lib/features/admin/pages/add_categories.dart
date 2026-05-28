@@ -39,7 +39,7 @@ class _AddCategoriesState extends State<AddCategories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Apply for trainer")),
+      appBar: AppBar(title: Text("Add category ")),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListView(
