@@ -7,7 +7,7 @@ class TrainerProfileModel {
   final int experienceYears;
   final Review? review;
   final Suspension? suspension;
-  final ProfileModel profile;
+  final ProfileModel profile; 
 
   TrainerProfileModel({
     required this.id,

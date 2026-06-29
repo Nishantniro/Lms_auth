@@ -32,7 +32,7 @@ class DioClient {
           }
           return !args.isResponse || !args.hasUint8ListData;
         },
-      ),
+      ),  
     );
     dio.interceptors.add(AuthInterceptor(dio));
   }

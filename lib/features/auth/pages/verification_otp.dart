@@ -7,10 +7,15 @@ import 'package:lms/features/home/home.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class VerificationOtp extends StatelessWidget {
-  const VerificationOtp({super.key, required this.email});
+  VerificationOtp({super.key, required this.email});
   static const String routeName = "/otp";
+  final TextEditingController otpController = TextEditingController();
 
   final String email;
+  void dispose() {
+    otpController.dispose();
+    
+  }
 
   @override
   Widget build(BuildContext context) {

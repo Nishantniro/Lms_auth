@@ -46,7 +46,7 @@ class _ApplyTrainerState extends State<ApplyTrainer> {
                 ),
                 SizedBox(),
                 Text("expertise", style: TextStyle(fontSize: 24)),
-                CustomTextForm(
+                CustomTextForm(    
                   controller: _expertise,
                   prefixIcon: Icon(Icons.lightbulb),
                 ),
